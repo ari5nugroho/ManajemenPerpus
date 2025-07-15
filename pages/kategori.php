@@ -1,6 +1,6 @@
 <?php
 include '../config/koneksi.php';
-include '../templates/header.php';
+include '../componen/header.php';
 $data = mysqli_query($conn, "SELECT * FROM tb_kategori");
 ?>
 <h3 class="mb-3">Data Kategori</h3>
@@ -28,4 +28,4 @@ $data = mysqli_query($conn, "SELECT * FROM tb_kategori");
         <?php } ?>
     </tbody>
 </table>
-<?php include '../templates/footer.php'; ?>
+<?php include '../componen/footer.php'; ?>

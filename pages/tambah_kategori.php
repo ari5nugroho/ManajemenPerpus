@@ -1,4 +1,4 @@
-<?php include '../templates/header.php'; ?>
+<?php include '../componen/header.php'; ?>
 <h3 class="mb-3">Tambah Kategori</h3>
 <div class="card p-4" style="max-width:500px;">
     <form method="POST" action="../proses/kategori_proses.php">
@@ -10,4 +10,4 @@
         <a href="kategori.php" class="btn btn-secondary">Kembali</a>
     </form>
 </div>
-<?php include '../templates/footer.php'; ?>
+<?php include '../componen/footer.php'; ?>

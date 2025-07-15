@@ -1,6 +1,6 @@
 <?php
 include '../config/koneksi.php';
-include '../templates/header.php';
+include '../componen/header.php';
 $id = $_GET['id'];
 $d = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM tb_kategori WHERE id_kategori='$id'"));
 ?>
@@ -14,4 +14,4 @@ $d = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM tb_kategori WHERE id_
     <button type="submit" name="edit" class="btn btn-primary">Update</button>
     <a href="kategori.php" class="btn btn-secondary">Kembali</a>
 </form>
-<?php include '../templates/footer.php'; ?>
+<?php include '../componen/footer.php'; ?>

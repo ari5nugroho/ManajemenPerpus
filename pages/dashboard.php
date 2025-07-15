@@ -1,6 +1,6 @@
 <?php
 include '../config/koneksi.php';
-include '../templates/header.php';
+include '../componen/header.php';
 $jml_buku = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM tb_buku"));
 $jml_kategori = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM tb_kategori"));
 $jml_peminjam = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM tb_peminjam"));
@@ -41,4 +41,4 @@ $jml_penulis = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM tb_penulis"));
         </div>
     </div>
 </div>
-<?php include '../templates/footer.php'; ?>
+<?php include '../componen/footer.php'; ?>
