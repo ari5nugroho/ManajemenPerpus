@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 16, 2025 at 05:16 PM
+-- Generation Time: Jul 16, 2025 at 06:03 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -104,7 +104,7 @@ CREATE TABLE `tb_peminjaman` (
 
 INSERT INTO `tb_peminjaman` (`id_peminjaman`, `id_buku`, `id_peminjam`, `tanggal_pinjam`, `tanggal_kembali`, `status`) VALUES
 (1, 1, 1, '2025-07-14', '2025-07-16', 'Dipinjam'),
-(2, 2, 1, '2025-07-15', '2025-07-24', 'Dipinjam'),
+(2, 2, 1, '2025-07-15', '2025-07-31', 'Dipinjam'),
 (3, 2, 2, '2025-07-16', '2025-07-19', 'Dikembalikan');
 
 -- --------------------------------------------------------
@@ -135,6 +135,9 @@ INSERT INTO `tb_penulis` (`id_penulis`, `nama_penulis`) VALUES
 CREATE TABLE `tb_user` (
   `id_user` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
+  `nama_lengkap` varchar(100) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `foto` varchar(255) DEFAULT 'default.png',
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -142,8 +145,8 @@ CREATE TABLE `tb_user` (
 -- Dumping data for table `tb_user`
 --
 
-INSERT INTO `tb_user` (`id_user`, `username`, `password`) VALUES
-(1, 'admin', '0192023a7bbd73250516f069df18b500');
+INSERT INTO `tb_user` (`id_user`, `username`, `nama_lengkap`, `email`, `foto`, `password`) VALUES
+(1, 'admin', 'AAAAG', 'admin@gmail.com', '6877cc008a54b_Rectangle.png', '0192023a7bbd73250516f069df18b500');
 
 --
 -- Indexes for dumped tables
