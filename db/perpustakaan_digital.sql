@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 15, 2025 at 04:01 AM
+-- Generation Time: Jul 16, 2025 at 05:16 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,7 +40,8 @@ CREATE TABLE `tb_buku` (
 --
 
 INSERT INTO `tb_buku` (`id_buku`, `judul_buku`, `tahun_terbit`, `id_kategori`, `id_penulis`) VALUES
-(1, 'Reawq', '2017', 1, 1);
+(1, 'REA211', '2016', 1, 1),
+(2, 'Lord of the Mysteries', '2018', 2, 2);
 
 -- --------------------------------------------------------
 
@@ -58,7 +59,8 @@ CREATE TABLE `tb_kategori` (
 --
 
 INSERT INTO `tb_kategori` (`id_kategori`, `nama_kategori`) VALUES
-(1, 'Komik');
+(1, 'Komik'),
+(2, 'Novel');
 
 -- --------------------------------------------------------
 
@@ -78,7 +80,8 @@ CREATE TABLE `tb_peminjam` (
 --
 
 INSERT INTO `tb_peminjam` (`id_peminjam`, `nama_peminjam`, `no_hp`, `alamat`) VALUES
-(1, 'Ari', '0811', 'Yogya');
+(1, 'Arthur', '081122223333', 'Yogyakarta'),
+(2, 'Cinthia', '085266661111', 'Sleman');
 
 -- --------------------------------------------------------
 
@@ -91,15 +94,18 @@ CREATE TABLE `tb_peminjaman` (
   `id_buku` int(11) DEFAULT NULL,
   `id_peminjam` int(11) DEFAULT NULL,
   `tanggal_pinjam` date DEFAULT NULL,
-  `tanggal_kembali` date DEFAULT NULL
+  `tanggal_kembali` date DEFAULT NULL,
+  `status` enum('Dipinjam','Dikembalikan','Terlambat') DEFAULT 'Dipinjam'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_peminjaman`
 --
 
-INSERT INTO `tb_peminjaman` (`id_peminjaman`, `id_buku`, `id_peminjam`, `tanggal_pinjam`, `tanggal_kembali`) VALUES
-(1, 1, 1, '2025-07-14', '2025-07-17');
+INSERT INTO `tb_peminjaman` (`id_peminjaman`, `id_buku`, `id_peminjam`, `tanggal_pinjam`, `tanggal_kembali`, `status`) VALUES
+(1, 1, 1, '2025-07-14', '2025-07-16', 'Dipinjam'),
+(2, 2, 1, '2025-07-15', '2025-07-24', 'Dipinjam'),
+(3, 2, 2, '2025-07-16', '2025-07-19', 'Dikembalikan');
 
 -- --------------------------------------------------------
 
@@ -117,7 +123,8 @@ CREATE TABLE `tb_penulis` (
 --
 
 INSERT INTO `tb_penulis` (`id_penulis`, `nama_penulis`) VALUES
-(1, 'Rea');
+(1, 'Rhea'),
+(2, 'Cuttlefish');
 
 -- --------------------------------------------------------
 
@@ -190,31 +197,31 @@ ALTER TABLE `tb_user`
 -- AUTO_INCREMENT for table `tb_buku`
 --
 ALTER TABLE `tb_buku`
-  MODIFY `id_buku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_buku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tb_kategori`
 --
 ALTER TABLE `tb_kategori`
-  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tb_peminjam`
 --
 ALTER TABLE `tb_peminjam`
-  MODIFY `id_peminjam` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_peminjam` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_peminjaman`
 --
 ALTER TABLE `tb_peminjaman`
-  MODIFY `id_peminjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_peminjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tb_penulis`
 --
 ALTER TABLE `tb_penulis`
-  MODIFY `id_penulis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_penulis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_user`

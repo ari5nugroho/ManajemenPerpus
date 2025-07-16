@@ -5,50 +5,99 @@ if (!isset($_SESSION['login'])) {
     exit;
 }
 include '../config/koneksi.php';
+include '../componen/header.php';
+include '../componen/sidebar.php';
 
-$data = mysqli_query($conn, "SELECT pj.*, b.judul_buku, p.nama_peminjam 
-                            FROM tb_peminjaman pj 
-                            LEFT JOIN tb_buku b ON pj.id_buku=b.id_buku
-                            LEFT JOIN tb_peminjam p ON pj.id_peminjam=p.id_peminjam");
+$cari = $_GET['cari'] ?? '';
+$data = mysqli_query($conn, "
+    SELECT pj.*, b.judul_buku, pm.nama_peminjam
+    FROM tb_peminjaman pj
+    LEFT JOIN tb_buku b ON pj.id_buku = b.id_buku
+    LEFT JOIN tb_peminjam pm ON pj.id_peminjam = pm.id_peminjam
+    WHERE b.judul_buku LIKE '%$cari%' OR pm.nama_peminjam LIKE '%$cari%'
+    ORDER BY pj.id_peminjaman DESC
+");
 ?>
-<!DOCTYPE html>
-<html>
 
-<head>
-    <title>Data Peminjaman</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+<main class="main-content" style="margin-left: 250px; padding-top: 80px; background-color: #f6f9fc;">
+    <div class="container-fluid px-4">
+        <div class="row align-items-center mb-3">
+            <div class="col-md-6">
+                <h4 class="fw-bold mb-0">Data Peminjaman</h4>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end gap-2">
+                <form method="GET" class="d-flex" role="search">
+                    <input type="text" name="cari" class="form-control me-2" placeholder="Cari buku/peminjam..." value="<?= htmlspecialchars($cari); ?>">
+                    <button class="btn btn-outline-primary" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+                <a href="tambah_peminjaman.php" class="btn btn-success">
+                    <i class="bi bi-plus-circle me-1"></i> Tambah Peminjaman
+                </a>
+            </div>
+        </div>
 
-<body>
-    <div class="container mt-4">
-        <h3>Data Peminjaman</h3>
-        <a href="tambah_peminjaman.php" class="btn btn-success mb-2">Tambah Peminjaman</a>
-        <table class="table table-bordered">
-            <tr>
-                <th>No</th>
-                <th>Buku</th>
-                <th>Peminjam</th>
-                <th>Tanggal Pinjam</th>
-                <th>Tanggal Kembali</th>
-                <th>Aksi</th>
-            </tr>
-            <?php $no = 1;
-            while ($d = mysqli_fetch_array($data)) { ?>
-                <tr>
-                    <td><?= $no++; ?></td>
-                    <td><?= $d['judul_buku']; ?></td>
-                    <td><?= $d['nama_peminjam']; ?></td>
-                    <td><?= $d['tanggal_pinjam']; ?></td>
-                    <td><?= $d['tanggal_kembali']; ?></td>
-                    <td>
-                        <a href="../proses/peminjaman_proses.php?hapus&id=<?= $d['id_peminjaman']; ?>"
-                            class="btn btn-danger btn-sm" onclick="return confirm('Hapus?')">Hapus</a>
-                    </td>
-                </tr>
-            <?php } ?>
-        </table>
-        <a href="dashboard.php" class="btn btn-secondary">Kembali</a>
+        <div class="card border-0 shadow-sm">
+            <div class="card-body table-responsive">
+                <table class="table table-bordered table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 5%;">No</th>
+                            <th>Buku</th>
+                            <th>Peminjam</th>
+                            <th>Tanggal Pinjam</th>
+                            <th>Tanggal Kembali</th>
+                            <th>Status</th>
+                            <th style="width: 15%;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $no = 1;
+                        while ($d = mysqli_fetch_array($data)) { ?>
+                            <tr>
+                                <td><?= $no++; ?></td>
+                                <td><?= htmlspecialchars($d['judul_buku']); ?></td>
+                                <td><?= htmlspecialchars($d['nama_peminjam']); ?></td>
+                                <td><?= $d['tanggal_pinjam']; ?></td>
+                                <td><?= $d['tanggal_kembali']; ?></td>
+                                <td class="d-flex align-items-center gap-2">
+                                    <?php if ($d['status'] == 'Dikembalikan'): ?>
+                                        <span class="badge bg-success">Dikembalikan</span>
+                                    <?php elseif ($d['status'] == 'Terlambat'): ?>
+                                        <span class="badge bg-danger">Terlambat</span>
+                                    <?php else: ?>
+                                        <span class="badge bg-warning text-dark">Dipinjam</span>
+                                    <?php endif; ?>
+
+                                    <?php if ($d['status'] == 'Dipinjam' || $d['status'] == 'Terlambat'): ?>
+                                        <a href="../proses/peminjaman_proses.php?selesai&id=<?= $d['id_peminjaman']; ?>"
+                                            class="btn btn-sm btn-success"
+                                            onclick="return confirm('Tandai sebagai dikembalikan?')">
+                                            <i class="bi bi-check-circle"></i>
+                                        </a>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <a href="edit_peminjaman.php?id=<?= $d['id_peminjaman']; ?>" class="btn btn-sm btn-warning me-1">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <a href="../proses/peminjaman_proses.php?hapus&id=<?= $d['id_peminjaman']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus?')">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                        <?php if (mysqli_num_rows($data) == 0): ?>
+                            <tr>
+                                <td colspan="7" class="text-center text-muted">Data tidak ditemukan.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-</body>
+</main>
 
-</html>
+<?php include '../componen/footer.php'; ?>

@@ -8,9 +8,15 @@ include '../config/koneksi.php';
 include '../componen/header.php';
 include '../componen/sidebar.php';
 
+
 $id = $_GET['id'];
-$data = mysqli_query($conn, "SELECT * FROM tb_kategori WHERE id_kategori = '$id'");
-$d = mysqli_fetch_assoc($data);
+$data = mysqli_query($conn, "SELECT * FROM tb_penulis WHERE id_penulis = '$id'");
+$penulis = mysqli_fetch_assoc($data);
+
+if (!$penulis) {
+    echo "<script>alert('Data penulis tidak ditemukan'); window.location='penulis.php';</script>";
+    exit;
+}
 ?>
 
 <main class="main-content" style="margin-left: 250px; padding-top: 80px; background-color: #f6f9fc;">
@@ -19,17 +25,17 @@ $d = mysqli_fetch_assoc($data);
             <div class="col-lg-6">
                 <div class="card border-0 shadow-sm mb-4">
                     <div class="card-header bg-warning text-white fw-semibold">
-                        <i class="bi bi-pencil-square me-2"></i> Edit Kategori
+                        <i class="bi bi-pencil-square me-2"></i> Edit Penulis
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="../proses/kategori_proses.php">
-                            <input type="hidden" name="id_kategori" value="<?= $d['id_kategori']; ?>">
+                        <form method="POST" action="../proses/penulis_proses.php">
+                            <input type="hidden" name="id_penulis" value="<?= $penulis['id_penulis']; ?>">
                             <div class="mb-3">
-                                <label class="form-label">Nama Kategori</label>
-                                <input type="text" name="nama_kategori" class="form-control" value="<?= htmlspecialchars($d['nama_kategori']); ?>" required>
+                                <label class="form-label">Nama Penulis</label>
+                                <input type="text" name="nama_penulis" class="form-control" value="<?= htmlspecialchars($penulis['nama_penulis']); ?>" required>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <a href="kategori.php" class="btn btn-secondary">
+                                <a href="penulis.php" class="btn btn-secondary">
                                     <i class="bi bi-arrow-left"></i> Kembali
                                 </a>
                                 <button type="submit" name="edit" class="btn btn-primary">

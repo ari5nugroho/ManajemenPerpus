@@ -10,8 +10,13 @@ if (isset($_POST['tambah'])) {
 if (isset($_POST['edit'])) {
     $id = $_POST['id_kategori'];
     $nama = $_POST['nama_kategori'];
-    mysqli_query($conn, "UPDATE tb_kategori SET nama_kategori='$nama' WHERE id_kategori='$id'");
-    header("Location: ../pages/kategori.php");
+    $update = mysqli_query($conn, "UPDATE tb_kategori SET nama_kategori='$nama' WHERE id_kategori='$id'");
+
+    if ($update) {
+        echo "<script>alert('Data kategori berhasil diperbarui'); window.location='../pages/kategori.php';</script>";
+    } else {
+        echo "<script>alert('Gagal memperbarui data'); window.location='../pages/kategori.php';</script>";
+    }
 }
 
 if (isset($_GET['hapus'])) {
