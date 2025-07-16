@@ -41,13 +41,14 @@ Password  : admin123
 
 (Ubah di database sesuai kebutuhan)
 
-👨‍💻 Anggota Kelompok
-Ari Nugroho – 23.11.5796
-Abbiyu Daib R – 23.11.5809
-Alwi Edi Nugroho – 23.11.5768
-Anita Dewi Purwanti - 23.11.5753
-Galuh Anggoro Wati - 23.11.5751
+## 👨‍💻 Anggota Kelompok
 
+- **Ari Nugroho** – 23.11.5796 
+- **Abbiyu Daib R** – 23.11.5809
+- **Alwi Edi Nugroho** – 23.11.5768 
+- **Anita Dewi Purwanti** – 23.11.5753  
+- **Galuh Anggoro Wati** – 23.11.5751
+   
 📝 Lisensi
 Proyek ini dibuat untuk keperluan akademik dalam rangka pembelajaran dan tidak untuk tujuan komersial.
 
