@@ -35,18 +35,19 @@ while ($row = mysqli_fetch_assoc($peminjaman_bulanan)) {
     $laporan_bulanan[(int)$row['bulan']] = $row['total'];
 }
 
-// Ringkasan hari ini
+// Ringkasan Mingguan
 $today = date('Y-m-d');
-$total_pinjam = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_peminjaman WHERE tanggal_pinjam = '$today'"))['total'];
-$total_kembali = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_peminjaman WHERE tanggal_kembali = '$today' AND status = 'Dikembalikan'"))['total'];
-$belum_kembali = $total_pinjam - $total_kembali;
+$monday = date('Y-m-d', strtotime('monday this week'));
+$mingguan_pinjam = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_peminjaman WHERE tanggal_pinjam BETWEEN '$monday' AND '$today'"))['total'];
+$mingguan_kembali = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_peminjaman WHERE status = 'Dikembalikan' AND tanggal_kembali BETWEEN '$monday' AND '$today'"))['total'];
+$mingguan_terlambat = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_peminjaman WHERE status = 'Dipinjam' AND tanggal_kembali < '$today' AND tanggal_pinjam BETWEEN '$monday' AND '$today'"))['total'];
 ?>
 
 <main class="main-content" style="margin-left: 250px; padding-top: 80px; background-color: #f6f9fc;">
     <div class="container-fluid px-4">
         <h4 class="fw-bold mb-4">Dashboard</h4>
 
-        <!-- Kartu statistik -->
+        <!-- Card statistik -->
         <div class="row g-4 mb-4 text-center">
             <div class="col-md-3">
                 <div class="card shadow-sm border-0 bg-primary text-white">
@@ -86,7 +87,6 @@ $belum_kembali = $total_pinjam - $total_kembali;
             </div>
         </div>
 
-
         <div class="row g-4">
             <!-- Grafik peminjaman -->
             <div class="col-md-6">
@@ -112,25 +112,25 @@ $belum_kembali = $total_pinjam - $total_kembali;
                 </div>
             </div>
 
-            <!-- Ringkasan Hari Ini -->
+            <!-- Ringkasan Mingguan -->
             <div class="col-md-6">
                 <div class="card shadow-sm border-0 h-10">
                     <div class="card-header bg-light fw-semibold small">
-                        <i class="bi bi-calendar-check me-2"></i> Ringkasan Hari Ini (<?= date('d M Y') ?>)
+                        <i class="bi bi-calendar-week me-2"></i> Ringkasan Minggu Ini (<?= date('d M Y', strtotime($monday)) ?> - <?= date('d M Y') ?>)
                     </div>
                     <div class="card-body text-center">
                         <div class="row">
                             <div class="col-4">
-                                <h2 class="fw-bold text-primary"><?= $total_pinjam ?></h2>
+                                <h2 class="fw-bold text-primary"><?= $mingguan_pinjam ?></h2>
                                 <small>Total Pinjam</small>
                             </div>
                             <div class="col-4">
-                                <h2 class="fw-bold text-success"><?= $total_kembali ?></h2>
+                                <h2 class="fw-bold text-success"><?= $mingguan_kembali ?></h2>
                                 <small>Dikembalikan</small>
                             </div>
                             <div class="col-4">
-                                <h2 class="fw-bold text-danger"><?= $belum_kembali ?></h2>
-                                <small>Belum Kembali</small>
+                                <h2 class="fw-bold text-danger"><?= $mingguan_terlambat ?></h2>
+                                <small>Terlambat</small>
                             </div>
                         </div>
                     </div>

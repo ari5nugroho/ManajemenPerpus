@@ -6,7 +6,9 @@ if (isset($_POST['tambah'])) {
     $id_peminjam = $_POST['id_peminjam'];
     $tgl_pinjam = $_POST['tanggal_pinjam'];
     $tgl_kembali = $_POST['tanggal_kembali'];
-    mysqli_query($conn, "INSERT INTO tb_peminjaman VALUES(null,'$id_buku','$id_peminjam','$tgl_pinjam','$tgl_kembali')");
+    mysqli_query($conn, "INSERT INTO tb_peminjaman (id_buku, id_peminjam, tanggal_pinjam, tanggal_kembali, status) 
+    VALUES('$id_buku', '$id_peminjam', '$tgl_pinjam', '$tgl_kembali', 'Dipinjam')");
+
     header("Location: ../pages/peminjaman.php");
 }
 if (isset($_POST['edit'])) {
@@ -30,21 +32,18 @@ if (isset($_POST['edit'])) {
         echo "<script>alert('Gagal memperbarui data'); window.location='../pages/peminjaman.php';</script>";
     }
 }
-if (isset($_GET['selesai']) && isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $update = mysqli_query($conn, "UPDATE tb_peminjaman SET status = 'Dikembalikan' WHERE id_peminjaman = '$id'");
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['status'], $_POST['id_peminjaman'])) {
+    $id = $_POST['id_peminjaman'];
+    $status = $_POST['status'];
+
+    $update = mysqli_query($conn, "UPDATE tb_peminjaman SET status = '$status' WHERE id_peminjaman = '$id'");
 
     if ($update) {
-        echo "<script>
-            alert('Status diperbarui menjadi Dikembalikan');
-            window.location.href = '../pages/peminjaman.php';
-        </script>";
+        header("Location: ../pages/peminjaman.php?pesan=update_sukses");
     } else {
-        echo "<script>
-            alert('Gagal memperbarui status');
-            window.location.href = '../pages/peminjaman.php';
-        </script>";
+        header("Location: ../pages/peminjaman.php?pesan=update_gagal");
     }
+    exit;
 }
 
 if (isset($_GET['hapus'])) {

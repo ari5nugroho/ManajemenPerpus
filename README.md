@@ -15,7 +15,7 @@ Sistem manajemen perpustakaan digital berbasis web menggunakan PHP dan MySQL. Ap
 ## 🛠️ Teknologi yang Digunakan
 
 - PHP 
-- MySQL / MariaDB
+- MySQL
 - Bootstrap 5
 - JavaScript 
 - HTML/CSS
@@ -35,9 +35,9 @@ $db   = "perpustakaan_digital";
 ```
 4. Jalankan index.php di browser menggunakan http://localhost/ManajemenPerpus/
 
-🔐 Login Admin Default
-Username	: admin
-Password  : admin123
+## 🔐 Login Admin Default
+- Username	: admin
+- Password  : admin123
 
 (Ubah di database sesuai kebutuhan)
 
@@ -49,7 +49,7 @@ Password  : admin123
 - **Anita Dewi Purwanti** – 23.11.5753  
 - **Galuh Anggoro Wati** – 23.11.5751
    
-📝 Lisensi
+## 📝 Lisensi
 Proyek ini dibuat untuk keperluan akademik dalam rangka pembelajaran dan tidak untuk tujuan komersial.
 
 

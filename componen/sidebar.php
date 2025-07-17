@@ -19,6 +19,11 @@
                 </a>
             </li>
             <li class="nav-item mt-2">
+                <a href="genre.php" class="nav-link <?= ($page == 'genre.php' || $page == 'tambah_genre.php' || $page == 'edit_genre.php') ? 'active text-primary fw-semibold' : 'text-dark' ?>">
+                    <i class="bi bi-film me-2"></i> Genre
+                </a>
+            </li>
+            <li class="nav-item mt-2">
                 <a href="penulis.php" class="nav-link <?= ($page == 'penulis.php' || $page == 'tambah_penulis.php' || $page == 'edit_penulis.php') ? 'active text-primary fw-semibold' : 'text-dark' ?>">
                     <i class="bi bi-pencil me-2"></i> Penulis
                 </a>

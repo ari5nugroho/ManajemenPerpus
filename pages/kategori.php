@@ -10,18 +10,15 @@ include '../componen/sidebar.php';
 
 $data = mysqli_query($conn, "SELECT * FROM tb_kategori");
 
-$judul = "Buku";
-$judul_singkat = "Buku";
-$tambah_link = "tambah_buku.php";
+$judul = "Kategori";
+$judul_singkat = "Kategori";
+$tambah_link = "tambah_kategori.php";
 
 $cari = $_GET['cari'] ?? '';
 $data = mysqli_query($conn, "
-    SELECT b.*, k.nama_kategori, p.nama_penulis 
-    FROM tb_buku b 
-    LEFT JOIN tb_kategori k ON b.id_kategori = k.id_kategori 
-    LEFT JOIN tb_penulis p ON b.id_penulis = p.id_penulis
-    WHERE b.judul_buku LIKE '%$cari%' OR k.nama_kategori LIKE '%$cari%' OR p.nama_penulis LIKE '%$cari%'
-    ORDER BY b.id_buku DESC
+    SELECT * FROM tb_kategori 
+    WHERE nama_kategori LIKE '%$cari%' 
+    ORDER BY id_kategori DESC
 ");
 ?>
 <main class="main-content" style="margin-left: 250px; padding-top: 80px; background-color: #f6f9fc;">

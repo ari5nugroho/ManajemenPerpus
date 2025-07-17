@@ -48,7 +48,7 @@ $data = mysqli_query($conn, "
                             <th>Peminjam</th>
                             <th>Tanggal Pinjam</th>
                             <th>Tanggal Kembali</th>
-                            <th>Status</th>
+                            <th style="width: 180px;">Status</th>
                             <th style="width: 15%;">Aksi</th>
                         </tr>
                     </thead>
@@ -61,22 +61,27 @@ $data = mysqli_query($conn, "
                                 <td><?= htmlspecialchars($d['nama_peminjam']); ?></td>
                                 <td><?= $d['tanggal_pinjam']; ?></td>
                                 <td><?= $d['tanggal_kembali']; ?></td>
-                                <td class="d-flex align-items-center gap-2">
-                                    <?php if ($d['status'] == 'Dikembalikan'): ?>
-                                        <span class="badge bg-success">Dikembalikan</span>
-                                    <?php elseif ($d['status'] == 'Terlambat'): ?>
-                                        <span class="badge bg-danger">Terlambat</span>
-                                    <?php else: ?>
-                                        <span class="badge bg-warning text-dark">Dipinjam</span>
-                                    <?php endif; ?>
+                                <td class="position-relative">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge 
+                                            <?= $d['status'] == 'Dikembalikan' ? 'bg-success' : ($d['status'] == 'Terlambat' ? 'bg-danger' : 'bg-warning text-dark') ?>">
+                                            <?= $d['status']; ?>
+                                        </span>
 
-                                    <?php if ($d['status'] == 'Dipinjam' || $d['status'] == 'Terlambat'): ?>
-                                        <a href="../proses/peminjaman_proses.php?selesai&id=<?= $d['id_peminjaman']; ?>"
-                                            class="btn btn-sm btn-success"
-                                            onclick="return confirm('Tandai sebagai dikembalikan?')">
-                                            <i class="bi bi-check-circle"></i>
-                                        </a>
-                                    <?php endif; ?>
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle py-0 px-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-check2-circle"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <form method="POST" action="../proses/peminjaman_proses.php">
+                                                    <input type="hidden" name="id_peminjaman" value="<?= $d['id_peminjaman']; ?>">
+                                                    <li><button type="submit" name="status" value="Dipinjam" class="dropdown-item">Dipinjam</button></li>
+                                                    <li><button type="submit" name="status" value="Dikembalikan" class="dropdown-item">Dikembalikan</button></li>
+                                                    <li><button type="submit" name="status" value="Terlambat" class="dropdown-item">Terlambat</button></li>
+                                                </form>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td>
                                     <a href="edit_peminjaman.php?id=<?= $d['id_peminjaman']; ?>" class="btn btn-sm btn-warning me-1">
