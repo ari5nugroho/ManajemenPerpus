@@ -120,17 +120,13 @@ $mingguan_terlambat = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as
                     </div>
                     <div class="card-body text-center">
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-6">
                                 <h2 class="fw-bold text-primary"><?= $mingguan_pinjam ?></h2>
                                 <small>Total Pinjam</small>
                             </div>
-                            <div class="col-4">
+                            <div class="col-6">
                                 <h2 class="fw-bold text-success"><?= $mingguan_kembali ?></h2>
                                 <small>Dikembalikan</small>
-                            </div>
-                            <div class="col-4">
-                                <h2 class="fw-bold text-danger"><?= $mingguan_terlambat ?></h2>
-                                <small>Terlambat</small>
                             </div>
                         </div>
                     </div>

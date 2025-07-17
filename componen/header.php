@@ -22,8 +22,8 @@
             <div class="ms-auto d-flex align-items-center">
 
                 <!-- Form search -->
-                <form class="d-none d-md-block me-3">
-                    <input type="text" class="form-control form-control-sm rounded" placeholder="Search...">
+                <form action="buku.php" method="GET" class="d-none d-md-block me-3">
+                    <input type="text" name="cari" class="form-control form-control-sm rounded" placeholder="Search buku...">
                 </form>
 
                 <!-- Notifikasi -->

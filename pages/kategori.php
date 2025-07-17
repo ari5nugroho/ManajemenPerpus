@@ -18,7 +18,7 @@ $cari = $_GET['cari'] ?? '';
 $data = mysqli_query($conn, "
     SELECT * FROM tb_kategori 
     WHERE nama_kategori LIKE '%$cari%' 
-    ORDER BY id_kategori DESC
+    ORDER BY id_kategori ASC
 ");
 ?>
 <main class="main-content" style="margin-left: 250px; padding-top: 80px; background-color: #f6f9fc;">

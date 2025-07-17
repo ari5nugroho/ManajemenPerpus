@@ -9,15 +9,32 @@ include '../componen/header.php';
 include '../componen/sidebar.php';
 
 $cari = $_GET['cari'] ?? '';
+$halaman = isset($_GET['halaman']) ? (int)$_GET['halaman'] : 1;
+$limit = 50;
+$start = ($halaman - 1) * $limit;
 
+// Total data
+$totalDataQuery = mysqli_query($conn, "
+    SELECT COUNT(*) AS total FROM view_buku_dengan_genre
+    WHERE judul_buku LIKE '%$cari%' 
+       OR nama_kategori LIKE '%$cari%' 
+       OR nama_penulis LIKE '%$cari%' 
+       OR tahun_terbit LIKE '%$cari%' 
+       OR genre LIKE '%$cari%'
+");
+$totalData = mysqli_fetch_assoc($totalDataQuery)['total'];
+$total_halaman = ceil($totalData / $limit);
+
+// data buku dengan limit
 $buku = mysqli_query($conn, "
     SELECT * FROM view_buku_dengan_genre
     WHERE judul_buku LIKE '%$cari%' 
        OR nama_kategori LIKE '%$cari%' 
-       OR nama_penulis LIKE '%$cari%'
-       OR tahun_terbit LIKE '%$cari%'
+       OR nama_penulis LIKE '%$cari%' 
+       OR tahun_terbit LIKE '%$cari%' 
        OR genre LIKE '%$cari%'
-    ORDER BY id_buku DESC
+    ORDER BY id_buku ASC
+    LIMIT $start, $limit
 ");
 ?>
 
@@ -57,7 +74,7 @@ $buku = mysqli_query($conn, "
                     </thead>
                     <tbody>
                         <?php if (mysqli_num_rows($buku) > 0): ?>
-                            <?php $no = 1;
+                            <?php $no = $start + 1;
                             while ($d = mysqli_fetch_array($buku)) { ?>
                                 <tr>
                                     <td><?= $no++; ?></td>
@@ -83,6 +100,51 @@ $buku = mysqli_query($conn, "
                         <?php endif; ?>
                     </tbody>
                 </table>
+                <!-- Pagination -->
+                <?php if ($total_halaman > 1): ?>
+                    <nav class="mt-3 d-flex justify-content-center">
+                        <ul class="pagination mb-0">
+
+                            <?php
+                            $range = 2; 
+                            $ellipsis_shown_left = false;
+                            $ellipsis_shown_right = false;
+                            ?>
+    
+                            <?php if ($halaman > 1): ?>
+                                <li class="page-item"><a class="page-link" href="?halaman=1&cari=<?= urlencode($cari) ?>">&laquo;</a></li>
+                                <li class="page-item"><a class="page-link" href="?halaman=<?= $halaman - 1 ?>&cari=<?= urlencode($cari) ?>">&lt;</a></li>
+                            <?php endif; ?>
+
+                            <?php for ($i = 1; $i <= $total_halaman; $i++): ?>
+                                <?php
+                                if (
+                                    $i == 1 || $i == $total_halaman ||
+                                    ($i >= $halaman - $range && $i <= $halaman + $range)
+                                ):
+                                ?>
+                                    <li class="page-item <?= ($i == $halaman) ? 'active' : '' ?>">
+                                        <a class="page-link" href="?halaman=<?= $i ?>&cari=<?= urlencode($cari) ?>"><?= $i ?></a>
+                                    </li>
+                                <?php elseif ($i < $halaman - $range && !$ellipsis_shown_left && $i != 1): ?>
+                                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                                    <?php $ellipsis_shown_left = true; ?>
+                                <?php elseif ($i > $halaman + $range && !$ellipsis_shown_right && $i != $total_halaman): ?>
+                                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                                    <?php $ellipsis_shown_right = true; ?>
+                                <?php endif; ?>
+                            <?php endfor; ?>
+
+                            <?php if ($halaman < $total_halaman): ?>
+                                <li class="page-item"><a class="page-link" href="?halaman=<?= $halaman + 1 ?>&cari=<?= urlencode($cari) ?>">&gt;</a></li>
+                                <li class="page-item"><a class="page-link" href="?halaman=<?= $total_halaman ?>&cari=<?= urlencode($cari) ?>">&raquo;</a></li>
+                            <?php endif; ?>
+
+                        </ul>
+                    </nav>
+                <?php endif; ?>
+
+
             </div>
         </div>
 
