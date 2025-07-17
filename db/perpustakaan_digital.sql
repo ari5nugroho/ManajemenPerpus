@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2025 at 03:51 PM
+-- Generation Time: Jul 17, 2025 at 03:59 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -181,6 +181,13 @@ CREATE TABLE `tb_profil_user` (
   `nama_lengkap` varchar(100) DEFAULT NULL,
   `foto` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_profil_user`
+--
+
+INSERT INTO `tb_profil_user` (`id_user`, `nama_lengkap`, `foto`) VALUES
+(1, 'AAAAG', '6877cc008a54b_Rectangle.png\r\n');
 
 -- --------------------------------------------------------
 
