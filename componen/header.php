@@ -26,9 +26,6 @@
                     <input type="text" name="cari" class="form-control form-control-sm rounded" placeholder="Search buku...">
                 </form>
 
-                <!-- Notifikasi -->
-                <i class="bi bi-bell text-white fs-5 me-3"></i>
-
                 <!-- Dropdown User -->
                 <div class="dropdown">
                     <button class="btn btn-sm text-white dropdown-toggle d-flex align-items-center" type="button" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">

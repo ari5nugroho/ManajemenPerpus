@@ -22,19 +22,33 @@ if (!$genre) {
 }
 ?>
 
-<main class="main-content" style="margin-left:250px; padding-top:80px;">
+<main class="main-content" style="margin-left: 250px; padding-top: 80px; background-color: #f6f9fc;">
     <div class="container-fluid px-4">
-        <h4 class="fw-bold mb-3">Edit Genre</h4>
-        <div class="card p-4" style="max-width:500px;">
-            <form method="POST" action="../proses/genre_proses.php">
-                <input type="hidden" name="id_genre" value="<?= $genre['id_genre']; ?>">
-                <div class="mb-3">
-                    <label class="form-label">Nama Genre</label>
-                    <input type="text" name="nama_genre" class="form-control" value="<?= htmlspecialchars($genre['nama_genre']); ?>" required>
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-warning text-white fw-semibold">
+                        <i class="bi bi-pencil-square me-2"></i> Edit Genre
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="../proses/genre_proses.php">
+                            <input type="hidden" name="id_genre" value="<?= $genre['id_genre']; ?>">
+                            <div class="mb-3">
+                                <label class="form-label">Nama Genre</label>
+                                <input type="text" name="nama_genre" class="form-control" value="<?= htmlspecialchars($genre['nama_genre']); ?>" required>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <a href="genre.php" class="btn btn-secondary">
+                                    <i class="bi bi-arrow-left"></i> Kembali
+                                </a>
+                                <button type="submit" name="edit" class="btn btn-primary">
+                                    <i class="bi bi-save"></i> Simpan Perubahan
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <button type="submit" name="edit" class="btn btn-primary">Simpan Perubahan</button>
-                <a href="genre.php" class="btn btn-secondary">Kembali</a>
-            </form>
+            </div>
         </div>
     </div>
 </main>
